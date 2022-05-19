@@ -1,28 +1,37 @@
 package ua.belozorov.snake.countdown;
 
+import ua.belozorov.snake.core.GameEventListener;
 import ua.belozorov.snake.core.GamePhase;
+import ua.belozorov.snake.core.Params;
 
-import static ua.belozorov.snake.util.SleepUtil.sleepSec;
+import java.util.Collection;
 
 public class InitialCountDownPhase implements GamePhase {
-    private final InitialCountDown countDown;
+    private volatile InitialCountdown countdown;
 
-    public InitialCountDownPhase(InitialCountDown countDown) {
-        this.countDown = countDown;
+    public InitialCountDownPhase() {
+        this.countdown = createCountdown();
+    }
+
+    private InitialCountdown createCountdown() {
+        return new InitialCountdown();
+    }
+
+    @Override
+    public void reInit() {
+        Collection<GameEventListener<InitialCountdown>> listeners = countdown.listeners();
+        countdown = createCountdown();
+        listeners.forEach(countdown::addListener);
     }
 
     @Override
     public void run() throws InterruptedException {
-        while (countDown.isNotFinished()) {
-            sleepSec(1);
-            countDown.countDown();
-            countDown.notifyListeners();
-        }
+        countdown.start();
     }
 
     @Override
     public long delayAfterMs() {
-        return 1500;
+        return Params.instance().afterStartPhaseDelayMs();
     }
 
     @Override
@@ -30,4 +39,7 @@ public class InitialCountDownPhase implements GamePhase {
         return 1;
     }
 
+    public InitialCountdown countdown() {
+        return countdown;
+    }
 }

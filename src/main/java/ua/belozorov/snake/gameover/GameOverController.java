@@ -1,35 +1,23 @@
 package ua.belozorov.snake.gameover;
 
-import ua.belozorov.snake.core.GameController;
+import ua.belozorov.snake.core.Game;
+import ua.belozorov.snake.core.GameControllerAdapter;
 
-public class GameOverController implements GameController {
+public class GameOverController extends GameControllerAdapter {
+
+    private final Game game;
+
+    public GameOverController(Game game) {
+        this.game = game;
+    }
+
     @Override
     public void handleR() {
-
+        game.restart();
     }
 
     @Override
     public void handleSpace() {
-
-    }
-
-    @Override
-    public void handleUp() {
-
-    }
-
-    @Override
-    public void handleDown() {
-
-    }
-
-    @Override
-    public void handleRight() {
-
-    }
-
-    @Override
-    public void handleLeft() {
-
+        System.exit(0);
     }
 }

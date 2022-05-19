@@ -1,32 +1,30 @@
 package ua.belozorov.snake.ingame;
 
-import ua.belozorov.snake.core.GamePhase;
-import ua.belozorov.snake.core.GameController;
-import ua.belozorov.snake.core.GamePhaseConfig;
-import ua.belozorov.snake.gui.GuiFactory;
+import ua.belozorov.snake.core.*;
+import ua.belozorov.snake.gui.CanvasFactory;
 
 public class InGameConfig implements GamePhaseConfig {
 
-    private DefaultGameField gameField;
+    private final GameFactory gameFactory = GameFactory.instance();
+    private final GameFieldFactory gameFieldFactory = GameFieldFactory.instance();
+    private final CanvasFactory canvasFactory = CanvasFactory.instance();
+
+    private volatile InGamePhase inGamePhase;
 
     @Override
     public InGamePhase phase() {
-        GameField gameField = gameField();
-        var gameFieldView = new GameFieldView(GuiFactory.instance().gameCanvas());
-        gameField.addListener(gameFieldView::display);
-        return new InGamePhase(gameField, 700);
-    }
-
-    private DefaultGameField gameField() {
-        if (gameField == null) {
-            gameField = new DefaultGameField();
+        if (inGamePhase == null) {
+            inGamePhase = new InGamePhase(gameFieldFactory);
+            var gameFieldView = new GameFieldView(canvasFactory);
+            inGamePhase.gameField().addListener(gameFieldView::display);
         }
-        return gameField;
+        return inGamePhase;
     }
 
     @Override
     public GameController controller() {
-        return new InGameController(gameField());
+        Game game = gameFactory.game();
+        return new InGameController(game, phase().gameField().getSnake());
     }
 
     @Override

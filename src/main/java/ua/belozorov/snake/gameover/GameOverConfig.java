@@ -1,8 +1,10 @@
 package ua.belozorov.snake.gameover;
 
+import ua.belozorov.snake.core.Game;
+import ua.belozorov.snake.core.GameFactory;
 import ua.belozorov.snake.core.GamePhase;
 import ua.belozorov.snake.core.GamePhaseConfig;
-import ua.belozorov.snake.gui.GuiFactory;
+import ua.belozorov.snake.gui.CanvasFactory;
 
 public class GameOverConfig implements GamePhaseConfig {
     private GameOverPhase gamePhase;
@@ -10,17 +12,17 @@ public class GameOverConfig implements GamePhaseConfig {
     @Override
     public GameOverPhase phase() {
         if (gamePhase == null) {
-            GameOver gameOver = new GameOver();
-            var gameOverView = new GameOverView(GuiFactory.instance().gameCanvas());
-            gameOver.addListener(gameOverView::display);
-            gamePhase = new GameOverPhase(gameOver);
+            var gameOverView = new GameOverView(CanvasFactory.instance());
+            gamePhase = new GameOverPhase();
+            gamePhase.gameOver().addListener(gameOverView::display);
         }
         return gamePhase;
     }
 
     @Override
     public GameOverController controller() {
-        return new GameOverController();
+        Game game = GameFactory.instance().game();
+        return new GameOverController(game);
     }
 
     @Override

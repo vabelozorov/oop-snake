@@ -11,13 +11,13 @@ import java.util.List;
 public class GamePhaseFactory {
     private static final GamePhaseFactory INSTANCE = new GamePhaseFactory();
 
-    private final List<GamePhaseConfig> gamePhaseConfigs = new ArrayList<>();
-
-    private GamePhases gamePhases;
-
     public static GamePhaseFactory instance() {
         return INSTANCE;
     }
+
+    private final List<GamePhaseConfig> gamePhaseConfigs = new ArrayList<>();
+
+    private GamePhaseManager gamePhaseManager;
 
     public List<GamePhaseConfig> gamePhaseConfigs() {
         if (gamePhaseConfigs.isEmpty()) {
@@ -26,11 +26,11 @@ public class GamePhaseFactory {
         return gamePhaseConfigs;
     }
 
-    public GamePhases gamePhases() {
-        if (gamePhases == null) {
-            gamePhases = new GamePhases();
-            gamePhaseConfigs().forEach(cfg -> gamePhases.addPhase(cfg.phase()));
+    public GamePhaseManager gamePhases() {
+        if (gamePhaseManager == null) {
+            gamePhaseManager = new GamePhaseManager();
+            gamePhaseConfigs().forEach(cfg -> gamePhaseManager.addPhase(cfg.phase()));
         }
-        return gamePhases;
+        return gamePhaseManager;
     }
 }

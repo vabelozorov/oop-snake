@@ -14,8 +14,8 @@ public class ControllerFactory {
     }
 
     public SnakeKeyListener snakeKeyListener() {
-        GamePhases gamePhases = GamePhaseFactory.instance().gamePhases();
-        SnakeKeyListener snakeKeyListener = new SnakeKeyListener(gamePhases);
+        GamePhaseManager gamePhaseManager = GamePhaseFactory.instance().gamePhases();
+        SnakeKeyListener snakeKeyListener = new SnakeKeyListener(gamePhaseManager);
 
         GamePhaseFactory.instance().gamePhaseConfigs().forEach(
                 cfg -> snakeKeyListener.registerControllerForPhase(cfg.phaseId(), cfg.controller()));

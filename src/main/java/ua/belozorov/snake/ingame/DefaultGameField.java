@@ -11,10 +11,10 @@ public class DefaultGameField extends NotifyingObject<GameField> implements Game
     private final AtomicInteger collisionHack = new AtomicInteger(0);
     private final Snake snake;
 
-    public DefaultGameField() {
+    public DefaultGameField(Snake snake) {
         width = 30;
         height = 30;
-        snake = new DefaultSnake();
+        this.snake = snake;
     }
 
     @Override
@@ -24,12 +24,17 @@ public class DefaultGameField extends NotifyingObject<GameField> implements Game
 
     @Override
     public boolean isWallCollision() {
-        return collisionHack.incrementAndGet() > 2;
+        return false;
     }
 
     @Override
     public Snake getSnake() {
         return snake;
+    }
+
+    @Override
+    public long snakeRestInterval() {
+        return getSnake().restInterval();
     }
 
 }

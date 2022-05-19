@@ -2,16 +2,20 @@ package ua.belozorov.snake.countdown;
 
 import ua.belozorov.snake.core.GamePhase;
 import ua.belozorov.snake.core.GamePhaseConfig;
-import ua.belozorov.snake.gui.GuiFactory;
+import ua.belozorov.snake.gui.CanvasFactory;
 
 public class CountDownConfig implements GamePhaseConfig {
 
+    private InitialCountDownPhase phase;
+
     @Override
     public InitialCountDownPhase phase() {
-        InitialCountDown countDown = new InitialCountDown();
-        var countDownView = new CountDownView(GuiFactory.instance().gameCanvas());
-        countDown.addListener(countDownView::display);
-        return new InitialCountDownPhase(countDown);
+        if (phase == null) {
+            var countDownView = new CountDownView(CanvasFactory.instance());
+            phase = new InitialCountDownPhase();
+            phase.countdown().addListener(countDownView::display);
+        }
+        return phase;
     }
 
     @Override

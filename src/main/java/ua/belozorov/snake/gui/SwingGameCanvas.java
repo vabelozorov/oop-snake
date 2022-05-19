@@ -1,5 +1,7 @@
 package ua.belozorov.snake.gui;
 
+import ua.belozorov.snake.core.Point;
+
 import java.awt.*;
 
 class SwingGameCanvas implements GameCanvas {
@@ -17,7 +19,7 @@ class SwingGameCanvas implements GameCanvas {
 
     @Override
     public void drawCenteredText(String s) {
-        Graphics2D g = drawingPanel.getCanvas().createGraphics();
+        Graphics2D g = drawingPanel.canvas().createGraphics();
 
         g.setColor(Color.white);
         g.setFont(font);
@@ -31,8 +33,21 @@ class SwingGameCanvas implements GameCanvas {
 
     @Override
     public void clear() {
-        Graphics2D g = drawingPanel.getCanvas().createGraphics();
+        Graphics2D g = drawingPanel.canvas().createGraphics();
 
         g.clearRect(0,0, drawingPanel.getWidth(), drawingPanel.getHeight());
+    }
+
+    @Override
+    public void drawSnakeSegment(Point segment) {
+        Graphics2D g = drawingPanel.canvas().createGraphics();
+        g.setColor(Color.RED);
+        g.fillOval(
+                segment.x() * drawingPanel.dotSize(),
+                (drawingPanel.height() - 1 - segment.y()) * drawingPanel.dotSize(),
+                drawingPanel.dotSize(),
+                drawingPanel.dotSize()
+        );
+        drawingPanel.repaint();
     }
 }

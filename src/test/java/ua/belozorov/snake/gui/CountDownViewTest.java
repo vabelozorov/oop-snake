@@ -3,7 +3,7 @@ package ua.belozorov.snake.gui;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ua.belozorov.snake.countdown.CountDownView;
-import ua.belozorov.snake.countdown.InitialCountDown;
+import ua.belozorov.snake.countdown.InitialCountdown;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -17,12 +17,12 @@ class CountDownViewTest {
     void setUp() {
         canvasMock = mock(GameCanvas.class);
 
-        view = new CountDownView(canvasMock);
+        view = new CountDownView(() -> canvasMock);
     }
 
     @Test
     void countAboveZero_displayCounter() {
-        InitialCountDown countDown = new InitialCountDown();
+        InitialCountdown countDown = new InitialCountdown();
         countDown.countDown();
 
         view.display(countDown);
@@ -32,7 +32,7 @@ class CountDownViewTest {
 
     @Test
     void countZero_displayStart() {
-        InitialCountDown countDown = new InitialCountDown();
+        InitialCountdown countDown = new InitialCountdown();
         countDown.countDown();
         countDown.countDown();
         countDown.countDown();

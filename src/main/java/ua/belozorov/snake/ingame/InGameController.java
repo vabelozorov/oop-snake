@@ -1,41 +1,40 @@
 package ua.belozorov.snake.ingame;
 
+import ua.belozorov.snake.core.Game;
 import ua.belozorov.snake.core.GameController;
+import ua.belozorov.snake.core.GameControllerAdapter;
 
-public class InGameController implements GameController {
-    private final GameField gameField;
+public class InGameController extends GameControllerAdapter {
+    private final Game game;
+    private final Snake snake;
 
-    public InGameController(GameField gameField) {
-        this.gameField = gameField;
+    public InGameController(Game game, Snake snake) {
+        this.game = game;
+        this.snake = snake;
     }
 
     @Override
     public void handleR() {
-
-    }
-
-    @Override
-    public void handleSpace() {
-
+        game.restart();
     }
 
     @Override
     public void handleUp() {
-        gameField.getSnake().turnUp();
+        snake.turnUp();
     }
 
     @Override
     public void handleDown() {
-        gameField.getSnake().turnDown();
+        snake.turnDown();
     }
 
     @Override
     public void handleRight() {
-        gameField.getSnake().turnRight();
+        snake.turnRight();
     }
 
     @Override
     public void handleLeft() {
-        gameField.getSnake().turnLeft();
+        snake.turnLeft();
     }
 }

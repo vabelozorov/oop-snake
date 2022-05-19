@@ -8,4 +8,6 @@ public interface GameField extends Notifying<GameField> {
     boolean isWallCollision();
 
     Snake getSnake();
+
+    long snakeRestInterval();
 }

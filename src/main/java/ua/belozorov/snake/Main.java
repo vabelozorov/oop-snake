@@ -6,11 +6,10 @@ import ua.belozorov.snake.gui.GuiFactory;
 public class Main {
 
     public static void main(String[] args) {
+        Params.load();
 
-        GamePhases gamePhases = GamePhaseFactory.instance().gamePhases();
-
-        new GameLoop(gamePhases)
-                .start();
+        GameFactory.instance()
+                .game().startNew();
 
         GuiFactory.instance()
                 .gui().show();

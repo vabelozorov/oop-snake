@@ -3,7 +3,6 @@ package ua.belozorov.snake.gui;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyListener;
-import java.awt.image.BufferedImage;
 
 public class Gui {
 
@@ -11,9 +10,10 @@ public class Gui {
     private final JFrame frame;
     private final SwingGameCanvas gameCanvas;
 
-    public Gui() {
-        BufferedImage canvas = new BufferedImage(400, 400, BufferedImage.TYPE_INT_ARGB);
-        panel = new DrawingPanel(canvas);
+    public Gui(int dotSize, int width, int height) {
+        panel = new DrawingPanel(dotSize, width, height);
+        panel.setBackground(Color.black);
+        panel.setFocusable(true);
 
         gameCanvas = new SwingGameCanvas(panel);
 
@@ -22,16 +22,7 @@ public class Gui {
     }
 
     public void show() {
-        EventQueue.invokeLater( () -> {
-            initPanel();
-            initFrame();
-        });
-    }
-
-    private void initPanel() {
-        panel.setPreferredSize(new Dimension(300, 300));
-        panel.setBackground(Color.black);
-        panel.setFocusable(true);
+        EventQueue.invokeLater(this::initFrame);
     }
 
     private void initFrame() {

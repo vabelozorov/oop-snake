@@ -1,6 +1,6 @@
 package ua.belozorov.snake.gui;
 
-import ua.belozorov.snake.core.GamePhases;
+import ua.belozorov.snake.core.GamePhaseManager;
 import ua.belozorov.snake.core.GamePhase;
 import ua.belozorov.snake.core.GameController;
 
@@ -13,11 +13,11 @@ import static java.util.Optional.ofNullable;
 
 public class SnakeKeyListener extends KeyAdapter {
 
-    private final GamePhases gamePhases;
+    private final GamePhaseManager gamePhaseManager;
     private final Map<Class<?>, GameController> phaseControllers = new HashMap<>();
 
-    public SnakeKeyListener(GamePhases gamePhases) {
-        this.gamePhases = gamePhases;
+    public SnakeKeyListener(GamePhaseManager gamePhaseManager) {
+        this.gamePhaseManager = gamePhaseManager;
     }
 
     public void registerControllerForPhase(Class<? extends GamePhase> phaseClass, GameController controller) {
@@ -28,7 +28,7 @@ public class SnakeKeyListener extends KeyAdapter {
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
 
-        Class<?> phaseClass = gamePhases.currentGamePhase();
+        Class<?> phaseClass = gamePhaseManager.currentGamePhaseId();
 
         GameController phaseController = requireController(phaseClass);
 

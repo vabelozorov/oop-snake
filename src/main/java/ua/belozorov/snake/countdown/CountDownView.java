@@ -1,23 +1,24 @@
 package ua.belozorov.snake.countdown;
 
-import ua.belozorov.snake.gui.GameCanvas;
 import ua.belozorov.snake.core.GameView;
+import ua.belozorov.snake.gui.CanvasFactory;
+import ua.belozorov.snake.gui.GameCanvas;
 
-public class CountDownView implements GameView<InitialCountDown> {
+public class CountDownView implements GameView<InitialCountdown> {
 
-    private final GameCanvas canvas;
+    private final CanvasFactory canvasFactory;
 
-    public CountDownView(GameCanvas canvas) {
-        this.canvas = canvas;
+    public CountDownView(CanvasFactory canvasFactory) {
+        this.canvasFactory = canvasFactory;
     }
 
     @Override
-    public void display(InitialCountDown model) {
+    public void display(InitialCountdown model) {
         int value = model.value();
         String text = value != 0 ? String.valueOf(value) : "START";
 
-        canvas.clear();
-        canvas.drawCenteredText(text);
+        GameCanvas gameCanvas = canvasFactory.gameCanvas();
+        gameCanvas.clear();
+        gameCanvas.drawCenteredText(text);
     }
-
 }
