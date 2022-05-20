@@ -3,7 +3,7 @@ package ua.belozorov.snake.core;
 public interface GamePhaseConfig {
     GamePhase phase();
 
-    GameController controller();
+    GamePhaseController controller();
 
     Class<? extends GamePhase> phaseId();
 }

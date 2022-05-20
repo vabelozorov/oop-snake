@@ -1,8 +1,8 @@
 package ua.belozorov.snake.countdown;
 
-import ua.belozorov.snake.core.GameController;
+import ua.belozorov.snake.core.GamePhaseController;
 
-public class CountDownController implements GameController {
+public class CountDownController implements GamePhaseController {
     @Override
     public void handleR() {
 

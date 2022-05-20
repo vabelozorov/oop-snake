@@ -22,9 +22,9 @@ public class InGameConfig implements GamePhaseConfig {
     }
 
     @Override
-    public GameController controller() {
+    public GamePhaseController controller() {
         Game game = gameFactory.game();
-        return new InGameController(game, phase().gameField().getSnake());
+        return new InGameController(game, phase());
     }
 
     @Override

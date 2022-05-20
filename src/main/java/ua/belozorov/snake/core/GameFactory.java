@@ -12,10 +12,12 @@ public class GameFactory {
         return INSTANCE;
     }
 
-    public synchronized Game game() {
-        if (game == null) {
-            GamePhaseManager gamePhaseManager = GamePhaseFactory.instance().gamePhases();
-            game = new Game(gamePhaseManager);
+    public Game game() {
+        GamePhaseManager gamePhaseManager = GamePhaseFactory.instance().gamePhases();
+        synchronized (this) {
+            if (game == null) {
+                game = new Game(gamePhaseManager);
+            }
         }
         return game;
     }

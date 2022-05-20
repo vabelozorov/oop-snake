@@ -1,6 +1,6 @@
 package ua.belozorov.snake.core;
 
-public interface GameController {
+public interface GamePhaseController {
     void handleR();
 
     void handleSpace();

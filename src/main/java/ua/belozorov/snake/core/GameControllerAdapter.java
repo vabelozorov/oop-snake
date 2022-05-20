@@ -1,6 +1,6 @@
 package ua.belozorov.snake.core;
 
-public class GameControllerAdapter implements GameController {
+public class GameControllerAdapter implements GamePhaseController {
     @Override
     public void handleR() {
 
