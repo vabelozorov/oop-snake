@@ -1,6 +1,7 @@
 package ua.belozorov.snake.ingame;
 
 import ua.belozorov.snake.core.Notifying;
+import ua.belozorov.snake.core.Point;
 
 public interface GameField extends Notifying<GameField> {
 
@@ -9,4 +10,6 @@ public interface GameField extends Notifying<GameField> {
     long snakeRestInterval();
 
     boolean hasSnakeCrossedBoundary();
+
+    Point getApple();
 }

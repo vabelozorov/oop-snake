@@ -16,6 +16,9 @@ public class GameFieldView implements GameView<GameField> {
         GameCanvas canvas = canvasFactory.gameCanvas();
 
         canvas.clear();
+
+        canvas.drawApple(model.getApple());
+
         model.getSnake().segments()
                 .forEach(canvas::drawSnakeSegment);
     }

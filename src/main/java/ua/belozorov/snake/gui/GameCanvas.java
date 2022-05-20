@@ -8,4 +8,6 @@ public interface GameCanvas {
     void clear();
 
     void drawSnakeSegment(Point segment);
+
+    void drawApple(Point point);
 }

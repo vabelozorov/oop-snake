@@ -50,4 +50,17 @@ class SwingGameCanvas implements GameCanvas {
         );
         drawingPanel.repaint();
     }
+
+    @Override
+    public void drawApple(Point point) {
+        Graphics2D g = drawingPanel.canvas().createGraphics();
+        g.setColor(Color.GREEN);
+        g.fillOval(
+                point.x() * drawingPanel.dotSize(),
+                (drawingPanel.height() - 1 - point.y()) * drawingPanel.dotSize(),
+                drawingPanel.dotSize(),
+                drawingPanel.dotSize()
+        );
+        drawingPanel.repaint();
+    }
 }
