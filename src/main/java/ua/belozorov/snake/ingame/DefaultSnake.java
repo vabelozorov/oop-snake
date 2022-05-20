@@ -24,7 +24,7 @@ public class DefaultSnake implements Snake {
             )
     );
 
-    private long restInterval;
+    private final long restInterval;
 
     private final LinkedList<Point> segments = new LinkedList<>();
 

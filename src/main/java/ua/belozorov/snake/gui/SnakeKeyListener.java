@@ -8,11 +8,11 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static java.util.Optional.ofNullable;
 
 public class SnakeKeyListener extends KeyAdapter {
-
     private final GamePhaseManager gamePhaseManager;
     private final Map<Class<?>, GameController> phaseControllers = new HashMap<>();
 

@@ -9,16 +9,20 @@ public class ControllerFactory {
 
     private static final ControllerFactory INSTANCE = new ControllerFactory();
 
+    private SnakeKeyListener snakeKeyListener;
+
     public static ControllerFactory instance() {
         return INSTANCE;
     }
 
-    public SnakeKeyListener snakeKeyListener() {
-        GamePhaseManager gamePhaseManager = GamePhaseFactory.instance().gamePhases();
-        SnakeKeyListener snakeKeyListener = new SnakeKeyListener(gamePhaseManager);
+    public synchronized SnakeKeyListener snakeKeyListener() {
+        if (snakeKeyListener == null) {
+            GamePhaseManager gamePhaseManager = GamePhaseFactory.instance().gamePhases();
+            snakeKeyListener = new SnakeKeyListener(gamePhaseManager);
 
-        GamePhaseFactory.instance().gamePhaseConfigs().forEach(
-                cfg -> snakeKeyListener.registerControllerForPhase(cfg.phaseId(), cfg.controller()));
+            GamePhaseFactory.instance().gamePhaseConfigs().forEach(
+                    cfg -> snakeKeyListener.registerControllerForPhase(cfg.phaseId(), cfg.controller()));
+        }
 
         return snakeKeyListener;
     }

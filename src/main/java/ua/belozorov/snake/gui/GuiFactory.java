@@ -15,7 +15,7 @@ public class GuiFactory {
 
     private Gui gui;
 
-    public Gui gui() {
+    public synchronized Gui gui() {
         if (gui == null) {
             Params params = Params.instance();
             gui = new Gui(params.dotSize(), params.width(), params.height());

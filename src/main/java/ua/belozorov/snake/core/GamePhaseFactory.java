@@ -19,14 +19,14 @@ public class GamePhaseFactory {
 
     private GamePhaseManager gamePhaseManager;
 
-    public List<GamePhaseConfig> gamePhaseConfigs() {
+    public synchronized List<GamePhaseConfig> gamePhaseConfigs() {
         if (gamePhaseConfigs.isEmpty()) {
             gamePhaseConfigs.addAll(ScanUtils.getAllImplementing(GamePhaseConfig.class));
         }
-        return gamePhaseConfigs;
+        return new ArrayList<>(gamePhaseConfigs);
     }
 
-    public GamePhaseManager gamePhases() {
+    public synchronized GamePhaseManager gamePhases() {
         if (gamePhaseManager == null) {
             gamePhaseManager = new GamePhaseManager();
             gamePhaseConfigs().forEach(cfg -> gamePhaseManager.addPhase(cfg.phase()));

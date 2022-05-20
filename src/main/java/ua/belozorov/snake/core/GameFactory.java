@@ -6,13 +6,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class GameFactory {
     private static final GameFactory INSTANCE = new GameFactory();
-    private volatile Game game;
+    private Game game;
 
     public static GameFactory instance() {
         return INSTANCE;
     }
 
-    public Game game() {
+    public synchronized Game game() {
         if (game == null) {
             GamePhaseManager gamePhaseManager = GamePhaseFactory.instance().gamePhases();
             game = new Game(gamePhaseManager);
