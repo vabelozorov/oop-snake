@@ -29,14 +29,19 @@ public class InGamePhase implements GamePhase {
     public void run() throws InterruptedException {
         isRunning = true;
 
-        while (isRunning && !isGameOverCondition()) {
+        while (isRunning) {
+
             gameField.getSnake().move();
-            gameField.notifyListeners();
 
-            sleepMs(gameField.snakeRestInterval());
+            if (gameField.getSnake().isHeadBodyCollision() ||
+                    gameField.hasSnakeCrossedBoundary()) {
 
-            if (gameField.getSnake().isHeadBodyCollision()) {
                 stop();
+
+            } else {
+                gameField.notifyListeners();
+
+                sleepMs(gameField.snakeRestInterval());
             }
         }
     }
@@ -44,10 +49,6 @@ public class InGamePhase implements GamePhase {
     @Override
     public void stop() {
         isRunning = false;
-    }
-
-    private boolean isGameOverCondition() {
-        return gameField.isWallCollision();
     }
 
     @Override

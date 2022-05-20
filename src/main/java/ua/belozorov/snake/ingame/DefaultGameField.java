@@ -1,6 +1,7 @@
 package ua.belozorov.snake.ingame;
 
 import ua.belozorov.snake.core.NotifyingObject;
+import ua.belozorov.snake.core.Point;
 
 public class DefaultGameField extends NotifyingObject<GameField> implements GameField {
 
@@ -9,15 +10,10 @@ public class DefaultGameField extends NotifyingObject<GameField> implements Game
 
     private final Snake snake;
 
-    public DefaultGameField(Snake snake) {
-        width = 30;
-        height = 30;
+    public DefaultGameField(Snake snake, int width, int height) {
+        this.width = width;
+        this.height = height;
         this.snake = snake;
-    }
-
-    @Override
-    public boolean isWallCollision() {
-        return false;
     }
 
     @Override
@@ -28,6 +24,16 @@ public class DefaultGameField extends NotifyingObject<GameField> implements Game
     @Override
     public long snakeRestInterval() {
         return getSnake().restInterval();
+    }
+
+    @Override
+    public boolean hasSnakeCrossedBoundary() {
+        Point head = getSnake().head();
+        return head.x() > (width - 1) ||
+                head.x() < 0 ||
+                head.y() > (height - 1) ||
+                head.y() < 0
+                ;
     }
 
 }

@@ -7,13 +7,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DefaultSnakeTest {
 
+    private DefaultSnake snake;
+
     @BeforeEach
     void setUp() {
+        snake = SnakeData.facesRight();
     }
 
     @Test
     void noSelfCollision() {
-        DefaultSnake snake = SnakeData.facesRight();
         snake.turnUp();
         snake.move();
         snake.turnLeft();
@@ -24,7 +26,6 @@ class DefaultSnakeTest {
 
     @Test
     void isSelfCollision() {
-        DefaultSnake snake = SnakeData.facesRight();
         snake.turnUp();
         snake.move();
         snake.turnLeft();

@@ -3,10 +3,10 @@ package ua.belozorov.snake.ingame;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import ua.belozorov.snake.core.Params;
-import ua.belozorov.snake.core.Point;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class GameFieldFactory {
+
     private static final GameFieldFactory INSTANCE = new GameFieldFactory();
 
     public static GameFieldFactory instance() {
@@ -15,8 +15,18 @@ public class GameFieldFactory {
 
     public GameField create() {
         Params params = Params.instance();
-        DefaultSnake snake = new DefaultSnake(
-                params.initialSnakeRestIntervalMs(), Point.xy(6, 1), Point.xy(1,1));
-        return new DefaultGameField(snake);
+
+        Snake snake = createSnake();
+        return new DefaultGameField(snake, params.width(), params.height());
+    }
+
+    public Snake createSnake() {
+        Params params = Params.instance();
+
+        return new DefaultSnake(
+                params.initialSnakeRestIntervalMs(),
+                params.initialSnakeHeadPosition(),
+                params.initialSnakeTailPosition()
+        );
     }
 }
