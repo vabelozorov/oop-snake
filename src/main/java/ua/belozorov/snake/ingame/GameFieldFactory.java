@@ -16,7 +16,7 @@ public class GameFieldFactory {
     public GameField create() {
         Params params = Params.instance();
         DefaultSnake snake = new DefaultSnake(
-                params.initialSnakeRestIntervalMs(), Point.xy(5, 1), Point.xy(1,1));
+                params.initialSnakeRestIntervalMs(), Point.xy(6, 1), Point.xy(1,1));
         return new DefaultGameField(snake);
     }
 }

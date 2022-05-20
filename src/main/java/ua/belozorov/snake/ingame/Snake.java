@@ -22,4 +22,6 @@ public interface Snake {
     long restInterval();
 
     List<Point> segments();
+
+    boolean isHeadBodyCollision();
 }

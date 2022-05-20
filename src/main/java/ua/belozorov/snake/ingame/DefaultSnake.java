@@ -129,6 +129,13 @@ public class DefaultSnake implements Snake {
         return new ArrayList<>(segments);
     }
 
+    @Override
+    public boolean isHeadBodyCollision() {
+        return segments().stream()
+                .filter(segm -> segm.equals(head()))
+                .count() == 2;
+    }
+
     private enum Direction {
         UP,
         DOWN,

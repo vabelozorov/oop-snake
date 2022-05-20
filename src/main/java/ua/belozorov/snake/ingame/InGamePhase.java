@@ -29,12 +29,15 @@ public class InGamePhase implements GamePhase {
     public void run() throws InterruptedException {
         isRunning = true;
 
-        sleepMs(1000);
-
         while (isRunning && !isGameOverCondition()) {
-            gameField.moveSnake();
+            gameField.getSnake().move();
             gameField.notifyListeners();
+
             sleepMs(gameField.snakeRestInterval());
+
+            if (gameField.getSnake().isHeadBodyCollision()) {
+                stop();
+            }
         }
     }
 
