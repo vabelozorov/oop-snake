@@ -6,8 +6,6 @@ import ua.belozorov.snake.gui.GuiFactory;
 public class Main {
 
     public static void main(String[] args) {
-        Params.load();
-
         GameFactory.instance()
                 .game().startNew();
 

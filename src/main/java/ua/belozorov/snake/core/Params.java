@@ -12,7 +12,8 @@ public class Params {
 
     public static synchronized Params instance() {
         if (INSTANCE == null) {
-            load();
+            INSTANCE = new Params();
+            INSTANCE.load();
         }
         return INSTANCE;
     }
@@ -25,17 +26,19 @@ public class Params {
     int afterInGamePhaseDelayMs;
     int afterGameOverPhaseDelayMs;
     int initialSnakeRestIntervalMs;
+    Point initialSnakeHeadPosition;
+    Point initialSnakeTailPosition;
 
-    public static void load() {
-        INSTANCE = new Params()
-                .dotSize(15)
-                .width(25)
-                .height(25)
-                .countdownDelayMs(300)
-                .afterStartPhaseDelayMs(150)
-                .afterInGamePhaseDelayMs(150)
-                .afterGameOverPhaseDelayMs(0)
-                .initialSnakeRestIntervalMs(700)
-                ;
+    public void load() {
+        dotSize(15)
+        .width(25)
+        .height(25)
+        .countdownDelayMs(300)
+        .afterStartPhaseDelayMs(150)
+        .afterInGamePhaseDelayMs(0)
+        .afterGameOverPhaseDelayMs(0)
+        .initialSnakeRestIntervalMs(700)
+        .initialSnakeHeadPosition(Point.xy(6, 1))
+        .initialSnakeTailPosition(Point.xy(1, 1));
     }
 }
