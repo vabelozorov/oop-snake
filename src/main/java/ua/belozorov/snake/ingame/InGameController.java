@@ -19,21 +19,21 @@ public class InGameController extends GameControllerAdapter {
 
     @Override
     public void handleUp() {
-        gamePhase.gameField().getSnake().turnUp();
+        gamePhase.snake().turnUp();
     }
 
     @Override
     public void handleDown() {
-        gamePhase.gameField().getSnake().turnDown();
+        gamePhase.snake().turnDown();
     }
 
     @Override
     public void handleRight() {
-        gamePhase.gameField().getSnake().turnRight();
+        gamePhase.snake().turnRight();
     }
 
     @Override
     public void handleLeft() {
-        gamePhase.gameField().getSnake().turnLeft();
+        gamePhase.snake().turnLeft();
     }
 }

@@ -7,11 +7,9 @@ public interface GameField extends Notifying<GameField> {
 
     Snake getSnake();
 
-    long snakeRestInterval();
-
-    boolean hasSnakeCrossedBoundary();
-
     Point getApple();
 
-    boolean isAppleEaten();
+    int getWidth();
+
+    int getHeight();
 }

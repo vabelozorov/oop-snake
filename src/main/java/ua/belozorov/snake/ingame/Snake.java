@@ -7,7 +7,7 @@ import java.util.List;
 public interface Snake {
     Point tail();
 
-    void move();
+    void move(int fieldWidth, int fieldHeight);
 
     Point head();
 
@@ -23,7 +23,5 @@ public interface Snake {
 
     List<Point> segments();
 
-    boolean isHeadBodyCollision();
-
-    void growTail();
+    void tryEatApple(Point apple);
 }

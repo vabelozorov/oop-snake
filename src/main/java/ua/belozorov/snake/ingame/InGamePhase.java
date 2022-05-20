@@ -6,49 +6,47 @@ import ua.belozorov.snake.core.Params;
 
 import java.util.Collection;
 
-import static ua.belozorov.snake.util.SleepUtil.sleepMs;
-
 public class InGamePhase implements GamePhase {
     private final GameFieldFactory gameFieldFactory;
+    private final Ticker ticker;
+    private volatile Snake snake;
     private volatile GameField gameField;
-    private volatile boolean isRunning;
 
-    public InGamePhase(GameFieldFactory gameFieldFactory) {
+    public InGamePhase(GameFieldFactory gameFieldFactory, Ticker ticker) {
         this.gameFieldFactory = gameFieldFactory;
-        this.gameField = gameFieldFactory.create();
+        this.snake = gameFieldFactory.createSnake();
+        this.gameField = gameFieldFactory.createField(snake);
+        this.ticker = ticker;
     }
 
     @Override
     public void reInit() {
         Collection<GameEventListener<GameField>> listeners = gameField.listeners();
-        gameField = gameFieldFactory.create();
+        this.snake = gameFieldFactory.createSnake();
+        this.gameField = gameFieldFactory.createField(snake);
         listeners.forEach(gameField::addListener);
     }
 
     @Override
     public void run() throws InterruptedException {
-        isRunning = true;
+        ticker.start();
 
-        while (isRunning) {
-            gameField.notifyListeners();
-            sleepMs(gameField.snakeRestInterval());
-
-            gameField.getSnake().move();
-
-            if (gameField.getSnake().isHeadBodyCollision() ||
-                    gameField.hasSnakeCrossedBoundary()) {
-                stop();
+        while (ticker.waitPlayerAction(snake.restInterval())) {
+            try {
+                snake.move(gameField.getWidth(), gameField.getHeight());
+            } catch (InvalidSnakeMoveException e) {
                 break;
             }
-            if (gameField.isAppleEaten()) {
-                gameField.getSnake().growTail();
-            }
+
+            snake.tryEatApple(gameField.getApple());
+
+            gameField.notifyListeners();
         }
     }
 
     @Override
     public void stop() {
-        isRunning = false;
+        ticker.stop();
     }
 
     @Override
@@ -63,5 +61,9 @@ public class InGamePhase implements GamePhase {
 
     public GameField gameField() {
         return gameField;
+    }
+
+    public Snake snake() {
+        return snake;
     }
 }

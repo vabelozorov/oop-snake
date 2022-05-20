@@ -14,7 +14,7 @@ public class InGameConfig implements GamePhaseConfig {
     @Override
     public InGamePhase phase() {
         if (inGamePhase == null) {
-            inGamePhase = new InGamePhase(gameFieldFactory);
+            inGamePhase = new InGamePhase(gameFieldFactory, new SysClockTicker());
             var gameFieldView = new GameFieldView(canvasFactory);
             inGamePhase.gameField().addListener(gameFieldView::display);
         }

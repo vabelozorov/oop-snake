@@ -25,28 +25,17 @@ public class DefaultGameField extends NotifyingObject<GameField> implements Game
     }
 
     @Override
-    public long snakeRestInterval() {
-        return getSnake().restInterval();
-    }
-
-    @Override
-    public boolean hasSnakeCrossedBoundary() {
-        Point head = getSnake().head();
-        return head.x() > (width - 1) ||
-                head.x() < 0 ||
-                head.y() > (height - 1) ||
-                head.y() < 0
-                ;
-    }
-
-    @Override
     public Point getApple() {
         return currentApple;
     }
 
     @Override
-    public boolean isAppleEaten() {
-        return getSnake().head().equals(currentApple);
+    public int getWidth() {
+        return width;
     }
 
+    @Override
+    public int getHeight() {
+        return height;
+    }
 }

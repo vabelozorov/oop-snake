@@ -66,6 +66,12 @@ public class DefaultSnake implements Snake {
         segments.addFirst(newSegment);
     }
 
+    private void growTail() {
+        UnaryOperator<Point> growOperator = growDirectionFunctions.get(nextMoveDirection.flipped());
+        Point newSegment = growOperator.apply(tail());
+        segments.addLast(newSegment);
+    }
+
     @Override
     public Point head() {
         return segments.getFirst();
@@ -77,13 +83,44 @@ public class DefaultSnake implements Snake {
     }
 
     @Override
-    public void move() {
+    public List<Point> segments() {
+        return new ArrayList<>(segments);
+    }
+
+    @Override
+    public void move(int fieldWidth, int fieldHeight) {
         growHead();
         removeTail();
+
+        checkInvalidMove(fieldWidth, fieldHeight);
     }
 
     private void removeTail() {
         segments.removeLast();
+    }
+
+    private void checkInvalidMove(int fieldWidth, int fieldHeight) {
+        if (hasSnakeCrossedBoundary(fieldWidth, fieldHeight)) {
+            throw new InvalidSnakeMoveException();
+        }
+
+        if (isHeadBodyCollision()) {
+            throw new InvalidSnakeMoveException();
+        }
+    }
+
+    private boolean hasSnakeCrossedBoundary(int width, int height) {
+        return head().x() > (width - 1) ||
+                head().x() < 0 ||
+                head().y() > (height - 1) ||
+                head().y() < 0
+                ;
+    }
+
+    private boolean isHeadBodyCollision() {
+        return segments().stream()
+                .filter(segm -> segm.equals(head()))
+                .count() == 2;
     }
 
     @Override
@@ -125,22 +162,14 @@ public class DefaultSnake implements Snake {
     }
 
     @Override
-    public List<Point> segments() {
-        return new ArrayList<>(segments);
+    public void tryEatApple(Point apple) {
+        if (isAppleEaten(apple)) {
+            growTail();
+        }
     }
 
-    @Override
-    public boolean isHeadBodyCollision() {
-        return segments().stream()
-                .filter(segm -> segm.equals(head()))
-                .count() == 2;
-    }
-
-    @Override
-    public void growTail() {
-        UnaryOperator<Point> growOperator = growDirectionFunctions.get(nextMoveDirection.flipped());
-        Point newSegment = growOperator.apply(tail());
-        segments.addLast(newSegment);
+    private boolean isAppleEaten(Point apple) {
+        return head().equals(apple);
     }
 
     private enum Direction {

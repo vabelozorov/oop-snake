@@ -14,10 +14,9 @@ public class GameFieldFactory {
         return INSTANCE;
     }
 
-    public GameField create() {
+    public GameField createField(Snake snake) {
         Params params = Params.instance();
 
-        Snake snake = createSnake();
         return new DefaultGameField(snake, appleGenerator(), params.width(), params.height());
     }
 
