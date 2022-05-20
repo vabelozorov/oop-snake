@@ -24,4 +24,6 @@ public interface Snake {
     List<Point> segments();
 
     boolean isHeadBodyCollision();
+
+    void growTail();
 }

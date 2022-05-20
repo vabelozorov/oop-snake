@@ -3,8 +3,9 @@ package ua.belozorov.snake.ingame;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import ua.belozorov.snake.core.Params;
+import ua.belozorov.snake.core.Point;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PACKAGE)
 public class GameFieldFactory {
 
     private static final GameFieldFactory INSTANCE = new GameFieldFactory();
@@ -31,6 +32,6 @@ public class GameFieldFactory {
     }
 
     public AppleGenerator appleGenerator() {
-        return new FixedAppleGenerator();
+        return new FixedAppleGenerator(Point.xy(10, 10));
     }
 }

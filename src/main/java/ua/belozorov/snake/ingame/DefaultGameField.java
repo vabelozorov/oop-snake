@@ -44,4 +44,9 @@ public class DefaultGameField extends NotifyingObject<GameField> implements Game
         return currentApple;
     }
 
+    @Override
+    public boolean isAppleEaten() {
+        return getSnake().head().equals(currentApple);
+    }
+
 }

@@ -2,9 +2,10 @@ package ua.belozorov.snake.ingame;
 
 import ua.belozorov.snake.core.Point;
 
-public class FixedAppleGenerator implements AppleGenerator {
+public record FixedAppleGenerator(Point point) implements AppleGenerator {
+
     @Override
     public Point next() {
-        return Point.xy(10, 10);
+        return point;
     }
 }

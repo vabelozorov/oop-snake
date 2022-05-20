@@ -7,16 +7,22 @@ import ua.belozorov.snake.core.Point;
 
 import java.util.function.Supplier;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class DefaultGameFieldCollisionTest {
+class DefaultGameFieldTest {
 
     private Supplier<GameField> fieldSupplier;
 
     @BeforeEach
     void setUp() {
-        fieldSupplier = () -> GameFieldFactory.instance().create();
+        GameFieldFactory factory = new GameFieldFactory() {
+            @Override
+            public AppleGenerator appleGenerator() {
+                return new FixedAppleGenerator(Point.xy(7, 1));
+            }
+        };
+        fieldSupplier = factory::create;
     }
 
     @Test
@@ -49,5 +55,28 @@ class DefaultGameFieldCollisionTest {
 
         gameField.getSnake().move();
         assertTrue(gameField.hasSnakeCrossedBoundary(), "snake expected to cross a boundary");
+    }
+
+    @Test
+    void appleEaten() {
+        Params.instance()
+                .initialSnakeHeadPosition(Point.xy(6, 1))
+                .initialSnakeTailPosition(Point.xy(1, 1));
+
+        GameField gameField = fieldSupplier.get();
+        gameField.getSnake().move();
+
+        assertTrue(gameField.isAppleEaten(), "apple should be eaten");
+    }
+
+    @Test
+    void appleNotEaten() {
+        Params.instance()
+                .initialSnakeHeadPosition(Point.xy(6, 1))
+                .initialSnakeTailPosition(Point.xy(1, 1));
+
+        GameField gameField = fieldSupplier.get();
+
+        assertFalse(gameField.isAppleEaten(), "apple should be eaten");
     }
 }

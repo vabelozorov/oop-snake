@@ -136,6 +136,13 @@ public class DefaultSnake implements Snake {
                 .count() == 2;
     }
 
+    @Override
+    public void growTail() {
+        UnaryOperator<Point> growOperator = growDirectionFunctions.get(nextMoveDirection.flipped());
+        Point newSegment = growOperator.apply(tail());
+        segments.addLast(newSegment);
+    }
+
     private enum Direction {
         UP,
         DOWN,

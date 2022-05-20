@@ -12,4 +12,6 @@ public interface GameField extends Notifying<GameField> {
     boolean hasSnakeCrossedBoundary();
 
     Point getApple();
+
+    boolean isAppleEaten();
 }

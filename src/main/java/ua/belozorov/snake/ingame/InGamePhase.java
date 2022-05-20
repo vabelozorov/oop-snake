@@ -30,18 +30,18 @@ public class InGamePhase implements GamePhase {
         isRunning = true;
 
         while (isRunning) {
+            gameField.notifyListeners();
+            sleepMs(gameField.snakeRestInterval());
 
             gameField.getSnake().move();
 
             if (gameField.getSnake().isHeadBodyCollision() ||
                     gameField.hasSnakeCrossedBoundary()) {
-
                 stop();
-
-            } else {
-                gameField.notifyListeners();
-
-                sleepMs(gameField.snakeRestInterval());
+                break;
+            }
+            if (gameField.isAppleEaten()) {
+                gameField.getSnake().growTail();
             }
         }
     }
