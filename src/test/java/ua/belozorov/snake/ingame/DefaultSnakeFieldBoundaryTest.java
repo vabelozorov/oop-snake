@@ -16,8 +16,8 @@ class DefaultSnakeFieldBoundaryTest {
     void setUp() {
         factory = new GameFieldFactory() {
             @Override
-            public AppleGenerator appleGenerator() {
-                return new FixedAppleGenerator(Point.xy(7, 1));
+            public PointGenerator appleGenerator() {
+                return new FixedPointGenerator(Point.xy(7, 1));
             }
         };
     }

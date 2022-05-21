@@ -6,17 +6,17 @@ import ua.belozorov.snake.core.Point;
 public class DefaultGameField extends NotifyingObject<GameField> implements GameField {
 
     private final Snake snake;
-    private final AppleGenerator appleGenerator;
+    private final PointGenerator appleGenerator;
     private final int width;
     private final int height;
     private volatile Point currentApple;
 
-    public DefaultGameField(Snake snake, AppleGenerator appleGenerator, int width, int height) {
+    public DefaultGameField(Snake snake, PointGenerator appleGenerator, int width, int height) {
         this.width = width;
         this.height = height;
         this.snake = snake;
         this.appleGenerator = appleGenerator;
-        this.currentApple = appleGenerator.next();
+        newApple();
     }
 
     @Override
@@ -37,5 +37,10 @@ public class DefaultGameField extends NotifyingObject<GameField> implements Game
     @Override
     public int getHeight() {
         return height;
+    }
+
+    @Override
+    public void newApple() {
+        currentApple = appleGenerator.next(snake.segments(), width, height);
     }
 }

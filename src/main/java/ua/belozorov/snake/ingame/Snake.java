@@ -23,5 +23,5 @@ public interface Snake {
 
     List<Point> segments();
 
-    void tryEatApple(Point apple);
+    boolean tryEatApple(Point apple);
 }

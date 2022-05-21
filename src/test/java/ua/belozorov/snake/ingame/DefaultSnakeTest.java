@@ -6,6 +6,9 @@ import ua.belozorov.snake.core.Point;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 class DefaultSnakeTest {
 
     private DefaultSnake snake;
@@ -15,10 +18,9 @@ class DefaultSnakeTest {
         snake = SnakeData.facesRight();
     }
 
-
     @Test
     void tryEatApple_success() {
-        snake.tryEatApple(Point.xy(5, 1));
+        assertTrue(snake.tryEatApple(Point.xy(5, 1)));
 
         SnakeData.assertSnakeSegments(
                 List.of(
@@ -35,7 +37,7 @@ class DefaultSnakeTest {
 
     @Test
     void tryEatApple_no() {
-        snake.tryEatApple(Point.xy(6, 1));
+        assertFalse(snake.tryEatApple(Point.xy(6, 1)));
 
         SnakeData.assertSnakeSegments(
                 List.of(

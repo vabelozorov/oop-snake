@@ -38,7 +38,10 @@ public class InGamePhase implements GamePhase {
                 break;
             }
 
-            snake.tryEatApple(gameField.getApple());
+            boolean hasEaten = snake.tryEatApple(gameField.getApple());
+            if (hasEaten) {
+                gameField.newApple();
+            }
 
             gameField.notifyListeners();
         }

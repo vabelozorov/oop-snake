@@ -37,7 +37,7 @@ public class Params {
         .afterStartPhaseDelayMs(150)
         .afterInGamePhaseDelayMs(0)
         .afterGameOverPhaseDelayMs(0)
-        .initialSnakeRestIntervalMs(700)
+        .initialSnakeRestIntervalMs(400)
         .initialSnakeHeadPosition(Point.xy(6, 1))
         .initialSnakeTailPosition(Point.xy(1, 1));
     }

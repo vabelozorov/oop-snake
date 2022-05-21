@@ -3,7 +3,6 @@ package ua.belozorov.snake.ingame;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import ua.belozorov.snake.core.Params;
-import ua.belozorov.snake.core.Point;
 
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 public class GameFieldFactory {
@@ -30,7 +29,7 @@ public class GameFieldFactory {
         );
     }
 
-    public AppleGenerator appleGenerator() {
-        return new FixedAppleGenerator(Point.xy(10, 10));
+    public PointGenerator appleGenerator() {
+        return new RandomPointGenerator();
     }
 }

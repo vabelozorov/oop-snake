@@ -162,10 +162,12 @@ public class DefaultSnake implements Snake {
     }
 
     @Override
-    public void tryEatApple(Point apple) {
+    public boolean tryEatApple(Point apple) {
         if (isAppleEaten(apple)) {
             growTail();
+            return true;
         }
+        return false;
     }
 
     private boolean isAppleEaten(Point apple) {

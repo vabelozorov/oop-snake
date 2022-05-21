@@ -12,4 +12,6 @@ public interface GameField extends Notifying<GameField> {
     int getWidth();
 
     int getHeight();
+
+    void newApple();
 }
