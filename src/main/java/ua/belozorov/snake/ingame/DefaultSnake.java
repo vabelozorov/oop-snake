@@ -53,7 +53,7 @@ public class DefaultSnake implements Snake {
         segments.add(tail);
 
         do {
-            growHead();
+            growHead(nextSegment());
         } while (!head().equals(head));
     }
 
@@ -71,16 +71,13 @@ public class DefaultSnake implements Snake {
         }
     }
 
-    private void growHead() {
-        UnaryOperator<Point> growOperator = growDirectionFunctions.get(nextMoveDirection);
-        Point newSegment = growOperator.apply(head());
-        segments.addFirst(newSegment);
+    private void growHead(Point nextSegment) {
+        segments.addFirst(nextSegment);
     }
 
-    private void growTail() {
-        UnaryOperator<Point> growOperator = growDirectionFunctions.get(nextMoveDirection.flipped());
-        Point newSegment = growOperator.apply(tail());
-        segments.addLast(newSegment);
+    private Point nextSegment() {
+        UnaryOperator<Point> growOperator = growDirectionFunctions.get(nextMoveDirection);
+        return growOperator.apply(head());
     }
 
     @Override
@@ -100,7 +97,7 @@ public class DefaultSnake implements Snake {
 
     @Override
     public boolean tryMove(int fieldWidth, int fieldHeight) {
-        growHead();
+        growHead(nextSegment());
         removeTail();
 
         return isValidMove(fieldWidth, fieldHeight);
@@ -171,14 +168,14 @@ public class DefaultSnake implements Snake {
     public boolean tryEatApple(Point apple) {
         if (isAppleEaten(apple)) {
             speedUpIfThresholdReached();
-            growTail(); //fixme grow head and don't move
+            growHead(nextSegment());
             return true;
         }
         return false;
     }
 
     private boolean isAppleEaten(Point apple) {
-        return head().equals(apple);
+        return nextSegment().equals(apple);
     }
 
     private void speedUpIfThresholdReached() {

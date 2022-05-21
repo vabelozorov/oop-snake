@@ -20,16 +20,16 @@ class DefaultSnakeTest {
 
     @Test
     void tryEatApple_success() {
-        assertTrue(snake.tryEatApple(Point.xy(5, 1)));
+        assertTrue(snake.tryEatApple(Point.xy(6, 1)));
 
         SnakeData.assertSnakeSegments(
                 List.of(
+                        Point.xy(6, 1),
                         Point.xy(5, 1),
                         Point.xy(4, 1),
                         Point.xy(3, 1),
                         Point.xy(2, 1),
-                        Point.xy(1, 1),
-                        Point.xy(0, 1)
+                        Point.xy(1, 1)
                 ),
                 snake
         );
@@ -37,7 +37,7 @@ class DefaultSnakeTest {
 
     @Test
     void tryEatApple_no() {
-        assertFalse(snake.tryEatApple(Point.xy(6, 1)));
+        assertFalse(snake.tryEatApple(Point.xy(7, 1)));
 
         SnakeData.assertSnakeSegments(
                 List.of(
@@ -55,10 +55,10 @@ class DefaultSnakeTest {
     void snakeSpeedsUpAfterEatenAppleThresholds() {
         long initialRestInterval = snake.restInterval();
 
-        snake.tryEatApple(snake.head());
+        snake.tryEatApple(Point.xy(6, 1));
         assertFalse(initialRestInterval > snake.restInterval());
 
-        snake.tryEatApple(snake.head());
+        snake.tryEatApple(Point.xy(7, 1));
         assertTrue(initialRestInterval > snake.restInterval());
     }
 }
