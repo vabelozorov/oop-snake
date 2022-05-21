@@ -14,4 +14,8 @@ public interface GameField extends Notifying<GameField> {
     int getHeight();
 
     void newApple();
+
+    boolean tryMoveSnake();
+
+    boolean snakeTriesEatApple();
 }

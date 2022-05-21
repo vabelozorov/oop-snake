@@ -5,8 +5,8 @@ import org.junit.jupiter.api.Test;
 import ua.belozorov.snake.core.Params;
 import ua.belozorov.snake.core.Point;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class DefaultSnakeFieldBoundaryTest {
 
@@ -48,9 +48,9 @@ class DefaultSnakeFieldBoundaryTest {
                 .initialSnakeTailPosition(tailPosition);
 
         Snake snake = factory.createSnake();
-        assertDoesNotThrow(() -> snake.move(26, 26));
+        assertTrue(snake.tryMove(26, 26));
 
-        assertThrows(InvalidSnakeMoveException.class, () -> snake.move(26, 26));
+        assertFalse(snake.tryMove(26, 26));
     }
 
     @Test
@@ -62,11 +62,11 @@ class DefaultSnakeFieldBoundaryTest {
         Snake snake = factory.createSnake();
 
         snake.turnUp();
-        snake.move(20, 20);
+        snake.tryMove(20, 20);
         snake.turnLeft();
-        snake.move(20, 20);
+        snake.tryMove(20, 20);
 
-        assertDoesNotThrow(() -> snake.move(20, 20));
+        assertTrue(snake.tryMove(20, 20));
     }
 
     @Test
@@ -78,11 +78,11 @@ class DefaultSnakeFieldBoundaryTest {
         Snake snake = factory.createSnake();
 
         snake.turnUp();
-        snake.move(20, 20);
+        snake.tryMove(20, 20);
         snake.turnLeft();
-        snake.move(20, 20);
+        snake.tryMove(20, 20);
         snake.turnDown();
 
-        assertThrows(InvalidSnakeMoveException.class, () -> snake.move(20, 20));
+        assertFalse(snake.tryMove(20, 20));
     }
 }

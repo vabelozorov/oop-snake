@@ -34,7 +34,7 @@ public class DefaultSnakeTurnTest {
         DefaultSnake snake = SnakeData.facesRight();
         snake.turnUp();
         snake.turnLeft();
-        snake.move(20,20 );
+        snake.tryMove(20,20 );
 
         assertEquals(Point.xy(5, 2), snake.head());
     }

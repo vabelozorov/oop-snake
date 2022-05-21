@@ -14,14 +14,14 @@ public class SnakeData {
     }
 
     public static void assertSnakeMoved(List<Point> expected, Snake snake) {
-        snake.move(20,20 );
+        snake.tryMove(20,20 );
 
         assertSnakeSegments(expected, snake);
     }
 
     public static void assertSnakeTurned(List<Point> expected, Snake snake, Consumer<Snake> turnFn) {
         turnFn.accept(snake);
-        snake.move(20,20 );
+        snake.tryMove(20,20 );
 
         assertSnakeSegments(expected, snake);
     }

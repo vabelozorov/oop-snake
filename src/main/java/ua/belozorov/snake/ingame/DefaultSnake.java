@@ -88,25 +88,20 @@ public class DefaultSnake implements Snake {
     }
 
     @Override
-    public void move(int fieldWidth, int fieldHeight) {
+    public boolean tryMove(int fieldWidth, int fieldHeight) {
         growHead();
         removeTail();
 
-        checkInvalidMove(fieldWidth, fieldHeight);
+        return isValidMove(fieldWidth, fieldHeight);
     }
 
     private void removeTail() {
         segments.removeLast();
     }
 
-    private void checkInvalidMove(int fieldWidth, int fieldHeight) {
-        if (hasSnakeCrossedBoundary(fieldWidth, fieldHeight)) {
-            throw new InvalidSnakeMoveException();
-        }
-
-        if (isHeadBodyCollision()) {
-            throw new InvalidSnakeMoveException();
-        }
+    private boolean isValidMove(int fieldWidth, int fieldHeight) {
+        return !(hasSnakeCrossedBoundary(fieldWidth, fieldHeight) ||
+                isHeadBodyCollision());
     }
 
     private boolean hasSnakeCrossedBoundary(int width, int height) {

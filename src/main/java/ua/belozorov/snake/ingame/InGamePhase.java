@@ -32,13 +32,12 @@ public class InGamePhase implements GamePhase {
         ticker.start();
 
         while (ticker.waitPlayerAction(snake.restInterval())) {
-            try {
-                snake.move(gameField.getWidth(), gameField.getHeight());
-            } catch (InvalidSnakeMoveException e) {
+            boolean isValidMove = gameField.tryMoveSnake();
+            if (!isValidMove) {
                 break;
             }
 
-            boolean hasEaten = snake.tryEatApple(gameField.getApple());
+            boolean hasEaten = gameField.snakeTriesEatApple();
             if (hasEaten) {
                 gameField.newApple();
             }

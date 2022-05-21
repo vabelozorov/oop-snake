@@ -7,7 +7,7 @@ import java.util.List;
 public interface Snake {
     Point tail();
 
-    void move(int fieldWidth, int fieldHeight);
+    boolean tryMove(int fieldWidth, int fieldHeight);
 
     Point head();
 

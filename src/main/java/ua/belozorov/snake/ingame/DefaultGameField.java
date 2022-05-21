@@ -43,4 +43,14 @@ public class DefaultGameField extends NotifyingObject<GameField> implements Game
     public void newApple() {
         currentApple = appleGenerator.next(snake.segments(), width, height);
     }
+
+    @Override
+    public boolean tryMoveSnake() {
+        return snake.tryMove(getWidth(), getHeight());
+    }
+
+    @Override
+    public boolean snakeTriesEatApple() {
+        return snake.tryEatApple(getApple());
+    }
 }
