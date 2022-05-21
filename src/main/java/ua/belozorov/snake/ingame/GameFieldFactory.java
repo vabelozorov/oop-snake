@@ -24,9 +24,9 @@ public class GameFieldFactory {
 
         return DefaultSnake.builder()
                 .initialRestInterval(params.initialSnakeRestIntervalMs())
-                        .head(params.initialSnakeHeadPosition())
+                .head(params.initialSnakeHeadPosition())
                 .tail(params.initialSnakeTailPosition())
-                        .restIntervalChanges(params.snakeSpeedThresholds())
+                .restIntervalChanges(params.snakeSpeedThresholds())
                 .build();
     }
 
