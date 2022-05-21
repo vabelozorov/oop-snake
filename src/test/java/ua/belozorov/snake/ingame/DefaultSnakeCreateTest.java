@@ -68,12 +68,12 @@ class DefaultSnakeCreateTest {
     @Test
     void headTailNotOnSameLine_ex() {
         assertThrows(IllegalStateException.class,
-                () -> new DefaultSnake(0, Point.xy(1, 1), Point.xy(2, 2)));
+                () -> SnakeData.atCoordinates(Point.xy(1, 1), Point.xy(2, 2)));
     }
 
     @Test
     void headAndTailMatch_ex() {
         assertThrows(IllegalStateException.class,
-                () -> new DefaultSnake(0, Point.xy(1, 1), Point.xy(1, 1)));
+                () -> SnakeData.atCoordinates(Point.xy(1, 1), Point.xy(1, 1)));
     }
 }

@@ -50,4 +50,15 @@ class DefaultSnakeTest {
                 snake
         );
     }
+
+    @Test
+    void snakeSpeedsUpAfterEatenAppleThresholds() {
+        long initialRestInterval = snake.restInterval();
+
+        snake.tryEatApple(snake.head());
+        assertFalse(initialRestInterval > snake.restInterval());
+
+        snake.tryEatApple(snake.head());
+        assertTrue(initialRestInterval > snake.restInterval());
+    }
 }

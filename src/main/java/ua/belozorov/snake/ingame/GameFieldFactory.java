@@ -22,11 +22,12 @@ public class GameFieldFactory {
     public Snake createSnake() {
         Params params = Params.instance();
 
-        return new DefaultSnake(
-                params.initialSnakeRestIntervalMs(),
-                params.initialSnakeHeadPosition(),
-                params.initialSnakeTailPosition()
-        );
+        return DefaultSnake.builder()
+                .initialRestInterval(params.initialSnakeRestIntervalMs())
+                        .head(params.initialSnakeHeadPosition())
+                .tail(params.initialSnakeTailPosition())
+                        .restIntervalChanges(params.snakeSpeedThresholds())
+                .build();
     }
 
     public PointGenerator appleGenerator() {

@@ -1,9 +1,12 @@
 package ua.belozorov.snake.ingame;
 
+import lombok.Builder;
 import ua.belozorov.snake.core.Point;
 
 import java.util.*;
 import java.util.function.UnaryOperator;
+
+import static java.util.Objects.requireNonNull;
 
 public class DefaultSnake implements Snake {
     private static final Map<Direction, UnaryOperator<Point>> growDirectionFunctions = new EnumMap<>(
@@ -24,13 +27,21 @@ public class DefaultSnake implements Snake {
             )
     );
 
-    private final long restInterval;
+    private long restInterval;
 
     private final LinkedList<Point> segments = new LinkedList<>();
+    private final Map<Integer, Integer> restIntervalChanges = new HashMap<>();
 
     private volatile Direction nextMoveDirection;
 
-    public DefaultSnake(long initialRestInterval, Point head, Point tail) {
+    @Builder
+    public DefaultSnake(
+            long initialRestInterval,
+            Point head,
+            Point tail,
+            Map<Integer, Integer> restIntervalChanges
+    ) {
+        this.restIntervalChanges.putAll(requireNonNull(restIntervalChanges));
         restInterval = initialRestInterval;
 
         createFullBody(head, tail);
@@ -159,7 +170,8 @@ public class DefaultSnake implements Snake {
     @Override
     public boolean tryEatApple(Point apple) {
         if (isAppleEaten(apple)) {
-            growTail();
+            speedUpIfThresholdReached();
+            growTail(); //fixme grow head and don't move
             return true;
         }
         return false;
@@ -167,6 +179,13 @@ public class DefaultSnake implements Snake {
 
     private boolean isAppleEaten(Point apple) {
         return head().equals(apple);
+    }
+
+    private void speedUpIfThresholdReached() {
+        Integer newSpeed = restIntervalChanges.get(segments.size() + 1);
+        if (newSpeed != null) {
+            restInterval = newSpeed;
+        }
     }
 
     private enum Direction {
