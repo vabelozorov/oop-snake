@@ -1,27 +1,27 @@
 package ua.belozorov.snake.ingame;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-import ua.belozorov.snake.core.Params;
+import ua.belozorov.snake.conf.ConfigFactory;
+import ua.belozorov.snake.conf.Params;
 
-@NoArgsConstructor(access = AccessLevel.PACKAGE)
 public class GameFieldFactory {
 
     private static final GameFieldFactory INSTANCE = new GameFieldFactory();
+
+    private final Params params;
 
     public static GameFieldFactory instance() {
         return INSTANCE;
     }
 
-    public GameField createField(Snake snake) {
-        Params params = Params.instance();
+    protected GameFieldFactory() {
+        params = ConfigFactory.getConfig();
+    }
 
+    public GameField createField(Snake snake) {
         return new DefaultGameField(snake, appleGenerator(), params.width(), params.height());
     }
 
     public Snake createSnake() {
-        Params params = Params.instance();
-
         return DefaultSnake.builder()
                 .initialRestInterval(params.initialSnakeRestIntervalMs())
                 .head(params.initialSnakeHeadPosition())

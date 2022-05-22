@@ -22,7 +22,7 @@ class CountDownViewTest {
 
     @Test
     void countAboveZero_displayCounter() {
-        InitialCountdown countDown = new InitialCountdown();
+        InitialCountdown countDown = new InitialCountdown(100);
         countDown.countDown();
 
         view.display(countDown);
@@ -32,7 +32,7 @@ class CountDownViewTest {
 
     @Test
     void countZero_displayStart() {
-        InitialCountdown countDown = new InitialCountdown();
+        InitialCountdown countDown = new InitialCountdown(100);
         countDown.countDown();
         countDown.countDown();
         countDown.countDown();

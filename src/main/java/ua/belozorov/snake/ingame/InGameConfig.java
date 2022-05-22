@@ -1,5 +1,7 @@
 package ua.belozorov.snake.ingame;
 
+import ua.belozorov.snake.conf.ConfigFactory;
+import ua.belozorov.snake.conf.Params;
 import ua.belozorov.snake.core.*;
 import ua.belozorov.snake.gui.CanvasFactory;
 
@@ -14,7 +16,8 @@ public class InGameConfig implements GamePhaseConfig {
     @Override
     public InGamePhase phase() {
         if (inGamePhase == null) {
-            inGamePhase = new InGamePhase(gameFieldFactory, new SysClockTicker());
+            Params config = ConfigFactory.getConfig();
+            inGamePhase = new InGamePhase(gameFieldFactory, new SysClockTicker(), config.afterInGamePhaseDelayMs());
             var gameFieldView = new GameFieldView(canvasFactory);
             inGamePhase.gameField().addListener(gameFieldView::display);
         }

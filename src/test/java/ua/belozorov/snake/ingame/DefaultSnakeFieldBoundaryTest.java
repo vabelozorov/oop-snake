@@ -1,26 +1,12 @@
 package ua.belozorov.snake.ingame;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ua.belozorov.snake.core.Params;
 import ua.belozorov.snake.core.Point;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class DefaultSnakeFieldBoundaryTest {
-
-    private GameFieldFactory factory;
-
-    @BeforeEach
-    void setUp() {
-        factory = new GameFieldFactory() {
-            @Override
-            public PointGenerator appleGenerator() {
-                return new FixedPointGenerator(Point.xy(7, 1));
-            }
-        };
-    }
 
     @Test
     void isSnakeToBoundaryCollision_right() {
@@ -43,11 +29,7 @@ class DefaultSnakeFieldBoundaryTest {
     }
 
     private void assertSnakeCrossedBoundary(Point headPosition, Point tailPosition) {
-        Params.instance()
-                .initialSnakeHeadPosition(headPosition)
-                .initialSnakeTailPosition(tailPosition);
-
-        Snake snake = factory.createSnake();
+         Snake snake = SnakeData.atCoordinates(headPosition, tailPosition);
         assertTrue(snake.tryMove(26, 26));
 
         assertFalse(snake.tryMove(26, 26));
@@ -55,11 +37,7 @@ class DefaultSnakeFieldBoundaryTest {
 
     @Test
     void noSelfCollision() {
-        Params.instance()
-                .initialSnakeHeadPosition(Point.xy(5,1))
-                .initialSnakeTailPosition(Point.xy(1,1));
-
-        Snake snake = factory.createSnake();
+        Snake snake = SnakeData.atCoordinates(Point.xy(5,1), Point.xy(1,1));
 
         snake.turnUp();
         snake.tryMove(20, 20);
@@ -71,11 +49,7 @@ class DefaultSnakeFieldBoundaryTest {
 
     @Test
     void isSelfCollision() {
-        Params.instance()
-                .initialSnakeHeadPosition(Point.xy(5,1))
-                .initialSnakeTailPosition(Point.xy(1,1));
-
-        Snake snake = factory.createSnake();
+        Snake snake = SnakeData.atCoordinates(Point.xy(5,1), Point.xy(1,1));
 
         snake.turnUp();
         snake.tryMove(20, 20);

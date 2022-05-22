@@ -2,21 +2,22 @@ package ua.belozorov.snake.ingame;
 
 import ua.belozorov.snake.core.GameEventListener;
 import ua.belozorov.snake.core.GamePhase;
-import ua.belozorov.snake.core.Params;
 
 import java.util.Collection;
 
 public class InGamePhase implements GamePhase {
     private final GameFieldFactory gameFieldFactory;
     private final Ticker ticker;
+    private final int delayAfterMs;
     private volatile Snake snake;
     private volatile GameField gameField;
 
-    public InGamePhase(GameFieldFactory gameFieldFactory, Ticker ticker) {
+    public InGamePhase(GameFieldFactory gameFieldFactory, Ticker ticker, int delayAfterMs) {
         this.gameFieldFactory = gameFieldFactory;
         this.snake = gameFieldFactory.createSnake();
         this.gameField = gameFieldFactory.createField(snake);
         this.ticker = ticker;
+        this.delayAfterMs = delayAfterMs;
     }
 
     @Override
@@ -54,7 +55,7 @@ public class InGamePhase implements GamePhase {
 
     @Override
     public long delayAfterMs() {
-        return Params.instance().afterStartPhaseDelayMs();
+        return delayAfterMs;
     }
 
     @Override

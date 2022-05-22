@@ -2,19 +2,22 @@ package ua.belozorov.snake.countdown;
 
 import ua.belozorov.snake.core.GameEventListener;
 import ua.belozorov.snake.core.GamePhase;
-import ua.belozorov.snake.core.Params;
 
 import java.util.Collection;
 
 public class InitialCountDownPhase implements GamePhase {
     private volatile InitialCountdown countdown;
+    private final long afterStartPhaseDelayMs;
+    private final CountdownFactory countdownFactory;
 
-    public InitialCountDownPhase() {
+    public InitialCountDownPhase(long afterStartPhaseDelayMs, CountdownFactory countdownFactory) {
+        this.afterStartPhaseDelayMs = afterStartPhaseDelayMs;
+        this.countdownFactory = countdownFactory;
         this.countdown = createCountdown();
     }
 
     private InitialCountdown createCountdown() {
-        return new InitialCountdown();
+        return countdownFactory.create();
     }
 
     @Override
@@ -31,7 +34,7 @@ public class InitialCountDownPhase implements GamePhase {
 
     @Override
     public long delayAfterMs() {
-        return Params.instance().afterStartPhaseDelayMs();
+        return afterStartPhaseDelayMs;
     }
 
     @Override

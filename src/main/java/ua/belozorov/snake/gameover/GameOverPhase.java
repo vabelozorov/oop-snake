@@ -2,15 +2,15 @@ package ua.belozorov.snake.gameover;
 
 import ua.belozorov.snake.core.GameEventListener;
 import ua.belozorov.snake.core.GamePhase;
-import ua.belozorov.snake.core.Params;
-import ua.belozorov.snake.countdown.InitialCountdown;
 
 import java.util.Collection;
 
 public class GameOverPhase implements GamePhase {
     private volatile GameOver gameOver;
+    private final long afterGameOverPhaseDelayMs;
 
-    public GameOverPhase() {
+    public GameOverPhase(long afterGameOverPhaseDelayMs) {
+        this.afterGameOverPhaseDelayMs = afterGameOverPhaseDelayMs;
         this.gameOver = createGameOver();
     }
 
@@ -32,7 +32,7 @@ public class GameOverPhase implements GamePhase {
 
     @Override
     public long delayAfterMs() {
-        return Params.instance().afterStartPhaseDelayMs();
+        return afterGameOverPhaseDelayMs;
     }
 
     @Override

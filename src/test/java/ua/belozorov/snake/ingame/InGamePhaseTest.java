@@ -18,7 +18,7 @@ class InGamePhaseTest {
         fieldMock = mock(GameField.class);
         snakeMock = mock(Snake.class);
 
-        phase = new InGamePhase(new TestGameFieldFactory(), tickerMock);
+        phase = new InGamePhase(new TestGameFieldFactory(), tickerMock, 0);
 
         when(tickerMock.waitPlayerAction(anyLong())).thenReturn(true, false);
     }
@@ -61,6 +61,7 @@ class InGamePhaseTest {
     }
 
     private class TestGameFieldFactory extends GameFieldFactory {
+
         @Override
         public GameField createField(Snake snake) {
             return fieldMock;

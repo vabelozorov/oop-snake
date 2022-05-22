@@ -1,7 +1,6 @@
 package ua.belozorov.snake.countdown;
 
 import ua.belozorov.snake.core.NotifyingObject;
-import ua.belozorov.snake.core.Params;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -11,9 +10,9 @@ public class InitialCountdown extends NotifyingObject<InitialCountdown> {
     private final AtomicInteger counter;
     private final int countdownDelayMs;
 
-    public InitialCountdown() {
+    public InitialCountdown(int countdownDelayMs) {
         counter = new AtomicInteger(4);
-        countdownDelayMs = Params.instance().countdownDelayMs();
+        this.countdownDelayMs = countdownDelayMs;
     }
 
     public void countDown() {

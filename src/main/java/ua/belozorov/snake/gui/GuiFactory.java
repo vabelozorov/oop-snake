@@ -2,8 +2,9 @@ package ua.belozorov.snake.gui;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import ua.belozorov.snake.conf.ConfigFactory;
+import ua.belozorov.snake.conf.Params;
 import ua.belozorov.snake.core.ControllerFactory;
-import ua.belozorov.snake.core.Params;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class GuiFactory {
@@ -17,7 +18,7 @@ public class GuiFactory {
 
     public synchronized Gui gui() {
         if (gui == null) {
-            Params params = Params.instance();
+            Params params = ConfigFactory.getConfig();
             gui = new Gui(params.dotSize(), params.width(), params.height());
             SnakeKeyListener listener = ControllerFactory.instance().snakeKeyListener();
             gui.addKeyListener(listener);
