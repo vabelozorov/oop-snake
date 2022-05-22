@@ -5,13 +5,13 @@ import org.junit.jupiter.api.Test;
 import ua.belozorov.snake.core.Point;
 
 import java.util.HashSet;
+import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 
-class RandomPointGeneratorTest {
+class RandomGameFieldGeneratorTest {
 
-    private RandomPointGenerator gen;
+    private RandomGameFieldGenerator gen;
 
     private final PointToCell[] pointsToCells = new PointToCell[]{
             new PointToCell(0, Point.xy(0, 0)),
@@ -25,7 +25,7 @@ class RandomPointGeneratorTest {
 
     @BeforeEach
     void setUp() {
-        gen = new RandomPointGenerator();
+        gen = new RandomGameFieldGenerator();
     }
 
     @Test
@@ -45,13 +45,34 @@ class RandomPointGeneratorTest {
     }
 
     @Test
-    void next() {
+    void nextPoint() {
         DefaultSnake snake = SnakeData.facesRight();
-        for (int i = 0; i < 200; i++) {
+        for (int i = 0; i < 500; i++) {
             HashSet<Point> forbidden = new HashSet<>(snake.segments());
             Point generated = gen.next(snake.segments(), 10, 10);
             assertFalse(forbidden.contains(generated));
         }
+    }
+
+    @Test
+    void nextSnakeHead() {
+        Stream.generate(() -> gen.nextSnakeHead(6, 6, 3))
+                .limit(100)
+                .forEach(point -> assertTrue(
+                        point.x() > 1 && point.x() < 4 &&
+                        point.y() > 1 && point.y() < 4,
+                        "point generated outside allowed boundaries: " + point
+                ));
+    }
+
+    @Test
+    void nextDirection() {
+        assertDoesNotThrow(
+                () -> Stream.generate(() -> gen.nextDirection())
+                .limit(100)
+                .forEach(d -> {
+                })
+        );
     }
 
     private record PointToCell(int cell, Point point) {

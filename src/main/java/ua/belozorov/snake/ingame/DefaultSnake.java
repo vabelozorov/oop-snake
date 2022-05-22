@@ -1,22 +1,16 @@
 package ua.belozorov.snake.ingame;
 
 import lombok.Builder;
+import ua.belozorov.snake.core.Direction;
 import ua.belozorov.snake.core.Point;
+import ua.belozorov.snake.util.VectorUtil;
 
 import java.util.*;
-import java.util.function.UnaryOperator;
 
 import static java.util.Objects.requireNonNull;
+import static ua.belozorov.snake.util.VectorUtil.defineBodyDirection;
 
 public class DefaultSnake implements Snake {
-    private static final Map<Direction, UnaryOperator<Point>> growDirectionFunctions = new EnumMap<>(
-            Map.of(
-                    Direction.UP, Point::withYIncrement,
-                    Direction.DOWN, Point::withYDecrement,
-                    Direction.RIGHT, Point::withXIncrement,
-                    Direction.LEFT, Point::withXDecrement
-            )
-    );
 
     private static final Map<Direction, Set<Direction>> allowedDirectionChanges = new EnumMap<>(
             Map.of(
@@ -43,41 +37,25 @@ public class DefaultSnake implements Snake {
     ) {
         this.restIntervalChanges.putAll(requireNonNull(restIntervalChanges));
         restInterval = initialRestInterval;
+        nextMoveDirection = VectorUtil.defineBodyDirection(head, tail);
 
         createFullBody(head, tail);
     }
 
-    private void createFullBody(Point head, Point tail) {
-        nextMoveDirection = defineBodyDirection(head, tail);
-
+    private void createFullBody(Point expectedHead, Point tail) {
         segments.add(tail);
 
         do {
-            growHead(nextSegment());
-        } while (!head().equals(head));
+            growHead();
+        } while (!head().equals(expectedHead));
     }
 
-    private static Direction defineBodyDirection(Point head, Point tail) {
-        if (head.equals(tail)) {
-            throw new IllegalStateException("head & tail cannot be same");
-        }
-
-        if (head.y() == tail.y()) {
-            return head.x() > tail.x() ? Direction.RIGHT : Direction.LEFT;
-        } else if (head.x() == tail.x()) {
-            return head.y() > tail.y() ? Direction.UP : Direction.DOWN;
-        } else {
-            throw new IllegalStateException("head & tail are not on the same line");
-        }
+    private void growHead() {
+        segments.addFirst(nextSegment(nextMoveDirection));
     }
 
-    private void growHead(Point nextSegment) {
-        segments.addFirst(nextSegment);
-    }
-
-    private Point nextSegment() {
-        UnaryOperator<Point> growOperator = growDirectionFunctions.get(nextMoveDirection);
-        return growOperator.apply(head());
+    private Point nextSegment(Direction direction) {
+        return VectorUtil.nextPointTowards(head(), direction);
     }
 
     @Override
@@ -97,7 +75,7 @@ public class DefaultSnake implements Snake {
 
     @Override
     public boolean tryMove(int fieldWidth, int fieldHeight) {
-        growHead(nextSegment());
+        growHead();
         removeTail();
 
         return isValidMove(fieldWidth, fieldHeight);
@@ -168,14 +146,14 @@ public class DefaultSnake implements Snake {
     public boolean tryEatApple(Point apple) {
         if (isAppleEaten(apple)) {
             speedUpIfThresholdReached();
-            growHead(nextSegment());
+            growHead();
             return true;
         }
         return false;
     }
 
     private boolean isAppleEaten(Point apple) {
-        return nextSegment().equals(apple);
+        return nextSegment(nextMoveDirection).equals(apple);
     }
 
     private void speedUpIfThresholdReached() {
@@ -185,19 +163,4 @@ public class DefaultSnake implements Snake {
         }
     }
 
-    private enum Direction {
-        UP,
-        DOWN,
-        RIGHT,
-        LEFT;
-
-        public Direction flipped() {
-            return switch (this) {
-                case UP -> DOWN;
-                case DOWN -> UP;
-                case RIGHT -> LEFT;
-                case LEFT -> RIGHT;
-            };
-        }
-    }
 }

@@ -1,5 +1,6 @@
 package ua.belozorov.snake.ingame;
 
+import ua.belozorov.snake.core.Direction;
 import ua.belozorov.snake.core.Point;
 
 import java.security.NoSuchAlgorithmException;
@@ -8,10 +9,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
 
-public class RandomPointGenerator implements PointGenerator {
+public class RandomGameFieldGenerator implements GameFieldGenerator {
     private final SecureRandom random;
 
-    public RandomPointGenerator() {
+    public RandomGameFieldGenerator() {
         try {
             this.random = SecureRandom.getInstanceStrong();
         } catch (NoSuchAlgorithmException e) {
@@ -52,5 +53,23 @@ public class RandomPointGenerator implements PointGenerator {
         int y = cellNumber / width;
         int x = cellNumber % width;
         return new Point(x, y);
+    }
+
+    @Override
+    public Direction nextDirection() {
+        int i = random.nextInt(0, Direction.values().length);
+        return Arrays.stream(Direction.values())
+                .filter(d -> d.ordinal() == i)
+                .findFirst()
+                .orElseThrow();
+    }
+
+    @Override
+    public Point nextSnakeHead(int fieldWidth, int fieldHeight, int snakeLength) {
+        return next(
+                fieldWidth - (snakeLength - 1) * 2,
+                fieldHeight - (snakeLength - 1) * 2
+        )
+                .withPlusXY(snakeLength - 1, snakeLength - 1);
     }
 }

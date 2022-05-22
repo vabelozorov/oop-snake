@@ -37,4 +37,6 @@ public interface Params extends Config {
 
     @ConverterClass(IntegerMapConverter.class)
     Map<Integer, Integer> snakeSpeedThresholds();
+
+    int initialSnakeLength();
 }
