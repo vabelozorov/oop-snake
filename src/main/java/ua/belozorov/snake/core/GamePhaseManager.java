@@ -10,7 +10,7 @@ public class GamePhaseManager {
     private final TreeSet<GamePhase> gamePhases = new TreeSet<>(comparing(GamePhase::order));
     private volatile GamePhase currentPhase;
     private volatile boolean isRunning;
-    private volatile GameContext gameContext = new GameContext();
+    private volatile GameContext gameContext;
 
     public void addPhase(GamePhase phase) {
         gamePhases.add(phase);
@@ -24,6 +24,9 @@ public class GamePhaseManager {
 
     public void run() throws Exception {
         isRunning = true;
+
+        gameContext = new GameContext();
+
         for (GamePhase gamePhase : gamePhases) {
             if (!isRunning) break;
 
