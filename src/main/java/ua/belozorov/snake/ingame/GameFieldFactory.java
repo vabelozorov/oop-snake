@@ -47,4 +47,8 @@ public class GameFieldFactory {
     public GameFieldGenerator appleGenerator() {
         return randomGameFieldGenerator;
     }
+
+    public Params params() {
+        return params;
+    }
 }

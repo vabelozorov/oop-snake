@@ -12,15 +12,15 @@ import java.awt.image.BufferedImage;
 class DrawingPanel extends JPanel {
     private final BufferedImage canvas;
     private final int dotSize;
-    private final int width;
-    private final int height;
+    private final int widthInCells;
+    private final int heightInCells;
 
-    public DrawingPanel(int dotSize, int width, int height) {
+    public DrawingPanel(int dotSize, int widthInCells, int heightInCells) {
         this.canvas = new BufferedImage(
-                width * dotSize, height * dotSize, BufferedImage.TYPE_INT_ARGB);
+                widthInCells * dotSize, heightInCells * dotSize, BufferedImage.TYPE_INT_ARGB);
         this.dotSize = dotSize;
-        this.width = width;
-        this.height = height;
+        this.widthInCells = widthInCells;
+        this.heightInCells = heightInCells;
     }
 
     @Override

@@ -152,6 +152,11 @@ public class DefaultSnake implements Snake {
         return false;
     }
 
+    @Override
+    public int length() {
+        return segments.size();
+    }
+
     private boolean isAppleEaten(Point apple) {
         return nextSegment(nextMoveDirection).equals(apple);
     }

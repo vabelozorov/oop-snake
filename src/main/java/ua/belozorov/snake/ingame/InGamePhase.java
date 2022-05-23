@@ -1,5 +1,7 @@
 package ua.belozorov.snake.ingame;
 
+import ua.belozorov.snake.conf.Params;
+import ua.belozorov.snake.core.GameContext;
 import ua.belozorov.snake.core.GameEventListener;
 import ua.belozorov.snake.core.GamePhase;
 
@@ -29,7 +31,7 @@ public class InGamePhase implements GamePhase {
     }
 
     @Override
-    public void run() throws InterruptedException {
+    public void run(GameContext gameContext) throws InterruptedException {
         ticker.start();
 
         while (ticker.waitPlayerAction(snake.restInterval())) {
@@ -40,6 +42,8 @@ public class InGamePhase implements GamePhase {
             } else {
                 boolean isValidMove = gameField.tryMoveSnake();
                 if (!isValidMove) {
+                    Params params = gameFieldFactory.params();
+                    gameContext.setScore(snake.length() - params.initialSnakeLength());
                     break;
                 }
             }

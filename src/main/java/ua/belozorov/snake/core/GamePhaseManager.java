@@ -10,6 +10,7 @@ public class GamePhaseManager {
     private final TreeSet<GamePhase> gamePhases = new TreeSet<>(comparing(GamePhase::order));
     private volatile GamePhase currentPhase;
     private volatile boolean isRunning;
+    private volatile GameContext gameContext = new GameContext();
 
     public void addPhase(GamePhase phase) {
         gamePhases.add(phase);
@@ -27,7 +28,7 @@ public class GamePhaseManager {
             if (!isRunning) break;
 
             currentPhase = gamePhase;
-            currentPhase.run();
+            currentPhase.run(gameContext);
             sleepMs(currentPhase.delayAfterMs());
         }
     }
@@ -36,6 +37,7 @@ public class GamePhaseManager {
         isRunning = false;
         currentPhase.stop();
         currentPhase = null;
+        gameContext = new GameContext();
     }
 
     public void reInit() {

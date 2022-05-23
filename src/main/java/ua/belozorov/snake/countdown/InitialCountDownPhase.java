@@ -1,5 +1,6 @@
 package ua.belozorov.snake.countdown;
 
+import ua.belozorov.snake.core.GameContext;
 import ua.belozorov.snake.core.GameEventListener;
 import ua.belozorov.snake.core.GamePhase;
 
@@ -28,7 +29,7 @@ public class InitialCountDownPhase implements GamePhase {
     }
 
     @Override
-    public void run() throws InterruptedException {
+    public void run(GameContext gameContext) throws InterruptedException {
         countdown.start();
     }
 

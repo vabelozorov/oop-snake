@@ -1,5 +1,6 @@
 package ua.belozorov.snake.gameover;
 
+import ua.belozorov.snake.core.GameContext;
 import ua.belozorov.snake.core.GameEventListener;
 import ua.belozorov.snake.core.GamePhase;
 
@@ -26,7 +27,8 @@ public class GameOverPhase implements GamePhase {
     }
 
     @Override
-    public void run() {
+    public void run(GameContext gameContext) {
+        gameOver.score(gameContext.getScore());
         gameOver.notifyListeners();
     }
 

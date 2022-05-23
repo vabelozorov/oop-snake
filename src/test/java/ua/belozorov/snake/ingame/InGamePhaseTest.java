@@ -2,7 +2,9 @@ package ua.belozorov.snake.ingame;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import ua.belozorov.snake.core.GameContext;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 class InGamePhaseTest {
@@ -11,6 +13,7 @@ class InGamePhaseTest {
     private Ticker tickerMock;
     private GameField fieldMock;
     private Snake snakeMock;
+    private final GameContext gameContext = new GameContext();
 
     @BeforeEach
     void setUp() throws InterruptedException {
@@ -25,7 +28,7 @@ class InGamePhaseTest {
 
     @Test
     void onRunTickerStartsAndSnakeTriesEatApple() throws InterruptedException {
-        phase.run();
+        phase.run(gameContext);
 
         verify(tickerMock).start();
         verify(fieldMock).snakeTriesEatApple();
@@ -35,7 +38,7 @@ class InGamePhaseTest {
     void appleEaten() throws InterruptedException {
         when(fieldMock.snakeTriesEatApple()).thenReturn(true);
 
-        phase.run();
+        phase.run(gameContext);
 
         verify(fieldMock).newApple();
         verify(fieldMock).notifyListeners();
@@ -44,7 +47,7 @@ class InGamePhaseTest {
     @Test
     void noApple_validMove() throws InterruptedException {
         when(fieldMock.tryMoveSnake()).thenReturn(true);
-        phase.run();
+        phase.run(gameContext);
 
         verify(fieldMock).notifyListeners();
         verify(tickerMock, times(2)).waitPlayerAction(anyLong());
@@ -52,15 +55,20 @@ class InGamePhaseTest {
 
     @Test
     void noApple_gameOverMove() throws InterruptedException {
+        when(snakeMock.length()).thenReturn(10);
         when(fieldMock.tryMoveSnake()).thenReturn(false);
 
-        phase.run();
+        phase.run(gameContext);
 
         verify(fieldMock, times(0)).notifyListeners();
         verify(tickerMock, times(1)).waitPlayerAction(anyLong());
+        assertEquals(4, gameContext.getScore());
     }
 
     private class TestGameFieldFactory extends GameFieldFactory {
+
+        protected TestGameFieldFactory() {
+        }
 
         @Override
         public GameField createField(Snake snake) {

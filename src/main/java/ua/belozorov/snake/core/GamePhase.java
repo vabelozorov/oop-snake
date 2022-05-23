@@ -3,7 +3,7 @@ package ua.belozorov.snake.core;
 public interface GamePhase {
     void reInit();
 
-    void run() throws Exception;
+    void run(GameContext gameContext) throws Exception;
 
     default void stop() {}
 
