@@ -37,10 +37,11 @@ public class GamePhaseManager {
         isRunning = false;
         currentPhase.stop();
         currentPhase = null;
-        gameContext = new GameContext();
+        gameContext = null;
     }
 
     public void reInit() {
+        gameContext = new GameContext();
         gamePhases.forEach(GamePhase::reInit);
     }
 }
